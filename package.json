@@ -1,12 +1,20 @@
 {
-	"name": "musictop",
-	"main": "index.html",
-	"webkit": {
-		"plugin": true
-	},
-	"window": {
-		"toolbar": true,
-		"position": "center",
-		"show": true
-	}
+  "name": "musictop",
+  "main": "app/public/index.html",
+  "node-main": "loader.js",
+  "webkit": {
+    "plugin": true
+  },
+  "window": {
+    "toolbar": true,
+    "position": "center",
+    "width": 800,
+    "height": 400,
+    "min_width": 800,
+    "min_height": 400,
+    "max_width": 800,
+    "max_height": 400,
+    "resizable": false,
+    "show": false
+  }
 }

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>musictop</title>
+
+		<link rel="stylesheet" href="css/fonts.css">
+		<link rel="stylesheet" href="css/normalize.css">
+		<link rel="stylesheet" href="css/foundation.min.css">
+		<link rel="stylesheet" href="css/musictop.css">
+
+		<script src="js/vendor/jquery.js"></script>
+		<script src="js/vendor/async.js"></script>
+		<script src="js/musictop.js"></script>
+	</head>
+
+	<body>
+		<header class="text-center">
+			<div class="row">
+				<div class="small-6 small-centered columns">
+					<h1>musictop</h1>
+				</div>
+			</div>
+		</header>
+
+		<section id="sites" class="text-center">
+			<div class="row">
+				<div class="small-4 columns">
+					<button id="grooveshark">
+						<img src="img/logo-grooveshark.png" alt="" />
+					</button>
+				</div>
+				<div class="small-4 columns">
+					<button id="spotify" disabled>
+						<img src="img/logo-spotify.jpg" alt="" />
+					</button>
+				</div>
+				<div class="small-4 columns">
+					<button id="soundcloud" disabled>
+						<img src="img/logo-soundcloud.png" alt="" />
+					</button>
+				</div>
+			</div>
+		</section>
+	</body>
+
+	<script>
+		var mt = new MusicTop();
+		mt.load();
+	</script>
+</html>

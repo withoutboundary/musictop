@@ -1,0 +1,26 @@
+/*==============================================================================
+musictop
+
+@author seguer
+==============================================================================*/
+
+/*==============================================================================
+General
+==============================================================================*/
+* { -webkit-user-select: none; -webkit-user-drag: none; }
+html, body { height: 100%; }
+body { background: #C3B091 url(../img/background.png) center center repeat; }
+
+/*==============================================================================
+Header
+==============================================================================*/
+header { margin-bottom: 20px; }
+header h1 { font-family: Lobster; margin-top: 0; font-size: 72px; line-height: 1.3; }
+
+/*==============================================================================
+Sites
+==============================================================================*/
+#sites button { background: transparent; margin: 0; padding: 0; line-height: 211px; height: 211px; }
+#sites button[disabled] { opacity: 0.2; }
+#sites button img { max-height: 211px; }
+#sites button p { font-family: Lobster; font-size: 24px; color: #000; margin: 0; }
