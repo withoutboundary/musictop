@@ -21,7 +21,39 @@ MusicTop.prototype.load = function load() {
 
 MusicTop.prototype.bindEvents = function bindEvents() {
 	var self = this;
+
+	$('#toggle-config').on('click', function(e) { self.toggleConfig(); });
 	$('#grooveshark').on('click', function(e) { self.loadSite('grooveshark'); });
+}
+
+MusicTop.prototype.toggleConfig = function toggleConfig() {
+	var self = this;
+
+	var sites = $('#sites');
+	var configHotkeys = $('#config-hotkeys');
+
+	if (sites.hasClass('shift-current')) {
+		self.shiftScreens(sites, configHotkeys);
+	}
+	else if (configHotkeys.hasClass('shift-current')) {
+		self.shiftScreens(null, sites, configHotkeys);
+	}
+}
+
+MusicTop.prototype.shiftScreens = function shiftScreens(left, current, right) {
+	var self = this;
+
+	if (left) {
+		left.removeClass('shift-current shift-right').addClass('shift-left');
+	}
+
+	if (current) {
+		current.removeClass('shift-left shift-right').addClass('shift-current');
+	}
+
+	if (right) {
+		right.removeClass('shift-current shift-left').addClass('shift-right');
+	}
 }
 
 MusicTop.prototype.loadSite = function loadSite(site) {
