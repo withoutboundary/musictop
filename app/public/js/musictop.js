@@ -23,6 +23,7 @@ MusicTop.prototype.bindEvents = function bindEvents() {
 	var self = this;
 
 	$('#toggle-config').on('click', function(e) { self.toggleConfig(); });
+	$('#config-hotkeys input').on('keydown', function(e) { self.hotkeyDown(e); });
 	$('#grooveshark').on('click', function(e) { self.loadSite('grooveshark'); });
 }
 
@@ -114,3 +115,9 @@ MusicTop.prototype.siteCreateWindow = function siteCreateWindow(site) {
 
 	return newWin;
 }
+
+MusicTop.prototype.hotkeyDown = function hotkeyDown(e) {
+	e.preventDefault();
+	var key = new Key(e);
+	e.target.value = key.toString();
+};
