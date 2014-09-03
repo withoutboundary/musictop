@@ -7,9 +7,9 @@ Desktop app to run web-based music sites allowing global operating system hotkey
 ## v1.0.0
 
 - [x] Proof of concept with Grooveshark
-- [x] Main selection screen [#1](issues/1)
-- [ ] Configurable hotkeys [#2](issues/2)
-- [ ] More actions for hotkeys [#3](issues/3)
+- [x] Main selection screen [#1](/../../issues/1)
+- [ ] Configurable hotkeys [#2](/../../issues/2)
+- [ ] More actions for hotkeys [#3](/../../issues/3)
 
 ## Future
 
@@ -19,4 +19,4 @@ Desktop app to run web-based music sites allowing global operating system hotkey
 
 # Features and Bugs
 
-If you have features to suggest or bugs to report please [submit a new Issue](issues/new)
+If you have features to suggest or bugs to report please [submit a new Issue](/../../issues/new)
