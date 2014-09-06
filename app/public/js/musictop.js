@@ -8,9 +8,12 @@ function MusicTop() {
 			inject: 'app/inject/musictop.grooveshark.js'
 		}
 	};
+	this.boundHotkeys = [];
 };
 
 MusicTop.prototype.load = function load() {
+	this.setupTemplates();
+	this.loadGUI();
 	this.bindEvents();
 
 	/**
@@ -24,7 +27,70 @@ MusicTop.prototype.bindEvents = function bindEvents() {
 
 	$('#toggle-config').on('click', function(e) { self.toggleConfig(); });
 	$('#config-hotkeys input').on('keydown', function(e) { self.hotkeyDown(e); });
+	$('#save-config-hotkeys').on('click', function(e) { self.saveHotkeys(e); });
 	$('#grooveshark').on('click', function(e) { self.loadSite('grooveshark'); });
+};
+
+MusicTop.prototype.setupTemplates = function setupTemplates() {
+	var self = this;
+
+	this.templates = {};
+	this.templates.hotkeys = Handlebars.compile($('#t-hotkeys').html());
+};
+
+MusicTop.prototype.loadGUI = function loadGUI() {
+	var self = this;
+
+	var hotkeys = JSON.parse(localStorage.hotkeys);
+	$('#config-hotkeys form tbody').append(this.templates.hotkeys(hotkeys));
+};
+
+MusicTop.prototype.loadHotkeys = function loadHotkeys(site, win) {
+	if (!this.hotkeysLoaded) {
+		this.hotkeysLoaded = true;
+
+		var hotkeys = JSON.parse(localStorage.hotkeys);
+		hotkeys = hotkeys[site];
+
+		if (hotkeys.togglePlayPause) {
+			var option = {
+				//key : "Ctrl+Shift+A",
+				key : hotkeys.togglePlayPause,
+				active : function() {
+					//console.log(">>>> Global desktop keyboard shortcut: " + this.key + " active.");
+				},
+				failed : function(msg) {
+					//console.log(">>>> Failed global hotkey", msg);
+				}
+			};
+
+			var shortcut = new gui.Shortcut(option);
+
+			gui.App.registerGlobalHotKey(shortcut);
+
+			var doing = false;
+			shortcut.on('active', function() {
+				if (!doing) {
+					win.window.MusicTop.togglePlayPause();
+					doing = true;
+				}
+				setTimeout(function() { doing = false; }, 200);
+			});
+
+			shortcut.on('failed', function(msg) {
+				//console.log(msg);
+			});
+		}
+	}
+};
+
+MusicTop.prototype.unloadHotkeys = function unloadHotkeys() {
+	this.boundHotkeys.forEach(function(hotkey) {
+		gui.App.unregisterGlobalHotKey(hotkey);
+	});
+
+	this.boundHotkeys = [];
+	this.hotkeysLoaded = false;
 }
 
 MusicTop.prototype.toggleConfig = function toggleConfig() {
@@ -39,7 +105,7 @@ MusicTop.prototype.toggleConfig = function toggleConfig() {
 	else if (configHotkeys.hasClass('shift-current')) {
 		self.shiftScreens(null, sites, configHotkeys);
 	}
-}
+};
 
 MusicTop.prototype.shiftScreens = function shiftScreens(left, current, right) {
 	var self = this;
@@ -55,7 +121,7 @@ MusicTop.prototype.shiftScreens = function shiftScreens(left, current, right) {
 	if (right) {
 		right.removeClass('shift-current shift-left').addClass('shift-right');
 	}
-}
+};
 
 MusicTop.prototype.loadSite = function loadSite(site) {
 	var self = this;
@@ -67,12 +133,12 @@ MusicTop.prototype.loadSite = function loadSite(site) {
 	else {
 		console.error('Invalid site to load: ' + site);
 	}
-}
+};
 
-MusicTop.prototype.siteCreateWindow = function siteCreateWindow(site) {
+MusicTop.prototype.siteCreateWindow = function siteCreateWindow(siteName) {
 	var self = this;
 
-	site = self.sites[site];
+	site = self.sites[siteName];
 	var newWin = gui.Window.open(site.url, {
 		position: 'center',
 		width: 800,
@@ -82,42 +148,27 @@ MusicTop.prototype.siteCreateWindow = function siteCreateWindow(site) {
 	});
 	newWin.maximize();
 	newWin.on('close', function() {
+		self.unloadHotkeys();
 		self.win.show();
 		newWin.close('true');
 	});
 
-	var option = {
-		key : "Ctrl+Shift+A",
-		active : function() {
-			//console.log("Global desktop keyboard shortcut: " + this.key + " active.");
-		},
-		failed : function(msg) {
-			//console.log(msg);
-		}
-	};
-
-	var shortcut = new gui.Shortcut(option);
-
-	gui.App.registerGlobalHotKey(shortcut);
-
-	var doing = false;
-	shortcut.on('active', function() {
-		if (!doing) {
-			newWin.window.Grooveshark.togglePlayPause();
-			doing = true;
-		}
-		setTimeout(function() { doing = false; }, 200);
-	});
-
-	shortcut.on('failed', function(msg) {
-		//console.log(msg);
+	newWin.on('loaded', function() {
+		self.loadHotkeys(siteName, newWin);
 	});
 
 	return newWin;
-}
+};
 
 MusicTop.prototype.hotkeyDown = function hotkeyDown(e) {
 	e.preventDefault();
 	var key = new Key(e);
 	e.target.value = key.toString();
+};
+
+MusicTop.prototype.saveHotkeys = function saveHotkeys(e) {
+	e.preventDefault();
+
+	var data = $('#config-hotkeys form').serializeJSON();
+	localStorage.hotkeys = JSON.stringify(data.hotkeys);
 };

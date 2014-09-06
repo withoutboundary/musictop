@@ -36,11 +36,6 @@ header #toggle-config:focus { outline: 0; }
 Sites
 ==============================================================================*/
 #sites button { background: transparent; margin: 0; padding: 0; line-height: 211px; height: 211px; }
-#sites button:focus
 #sites button[disabled] { opacity: 0.2; }
 #sites button img { max-height: 211px; }
 #sites button p { font-family: Lobster; font-size: 24px; color: #000; margin: 0; }
-
-/*==============================================================================
-Hotkeys
-==============================================================================*/
