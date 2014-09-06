@@ -1,12 +1,28 @@
 {
   "name": "musictop",
+  "description": "Giving music sites desktop functionality",
+  "version": "1.0.0",
+  "keywords": ["desktop", "app", "music", "grooveshark", "hotkeys"],
+  "maintainers": [
+    {
+      "name": "Shawn Murphy (seguer)",
+      "web": "http://blog.withoutboundary.com.au"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Shawn Murphy (seguer)",
+      "web": "http://blog.withoutboundary.com.au"
+    }
+  ],
+  "bugs": "https://github.com/withoutboundary/musictop/issues",
   "main": "app/public/index.html",
   "node-main": "loader.js",
   "webkit": {
     "plugin": true
   },
   "window": {
-    "toolbar": true,
+    "toolbar": false,
     "position": "center",
     "width": 800,
     "height": 400,
