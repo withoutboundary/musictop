@@ -1,6 +1,6 @@
 # musictop
 
-Desktop app to run web-based music sites allowing global operating system hotkeys to control them.
+Giving music sites desktop functionality
 
 # Roadmap
 
@@ -8,11 +8,12 @@ Desktop app to run web-based music sites allowing global operating system hotkey
 
 - [x] Proof of concept with Grooveshark
 - [x] Main selection screen [#1](/../../issues/1)
-- [ ] Configurable hotkeys [#2](/../../issues/2)
-- [ ] More actions for hotkeys [#3](/../../issues/3)
+- [x] Configurable hotkeys [#2](/../../issues/2)
+- [x] More actions for hotkeys [#3](/../../issues/3)
 
 ## Future
 
+- [ ] Support Pandora
 - [ ] Support Spotify
 - [ ] Support Soundcloud
 - [ ] Support YouTube
