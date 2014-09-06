@@ -52,37 +52,41 @@ MusicTop.prototype.loadHotkeys = function loadHotkeys(site, win) {
 		var hotkeys = JSON.parse(localStorage.hotkeys);
 		hotkeys = hotkeys[site];
 
-		if (hotkeys.togglePlayPause) {
-			var option = {
-				//key : "Ctrl+Shift+A",
-				key : hotkeys.togglePlayPause,
-				active : function() {
-					//console.log(">>>> Global desktop keyboard shortcut: " + this.key + " active.");
-				},
-				failed : function(msg) {
-					//console.log(">>>> Failed global hotkey", msg);
-				}
-			};
+		var hotkeysList = [
+			'togglePlayPause',
+			'previousTrack',
+			'nextTrack'
+		];
 
-			var shortcut = new gui.Shortcut(option);
-
-			gui.App.registerGlobalHotKey(shortcut);
-
-			var doing = false;
-			shortcut.on('active', function() {
-				if (!doing) {
-					win.window.MusicTop.togglePlayPause();
-					doing = true;
-				}
-				setTimeout(function() { doing = false; }, 200);
-			});
-
-			shortcut.on('failed', function(msg) {
-				//console.log(msg);
-			});
-		}
+		hotkeysList.forEach(function(hk) {
+			if (hotkeys[hk]) {
+				createHotkey(hotkeys[hk], win.window.MusicTop[hk]);
+			}
+		});
 	}
 };
+
+function createHotkey(key, func, failed, delay) {
+	failed = failed || function(){}; //noop
+	delay = delay || 200;
+
+	var option = {key : key};
+
+	var shortcut = new gui.Shortcut(option);
+
+	gui.App.registerGlobalHotKey(shortcut);
+
+	var doing = false;
+	shortcut.on('active', function() {
+		if (!doing) {
+			func();
+			doing = true;
+		}
+		setTimeout(function() { doing = false; }, delay);
+	});
+
+	shortcut.on('failed', failed); //failed to register
+}
 
 MusicTop.prototype.unloadHotkeys = function unloadHotkeys() {
 	this.boundHotkeys.forEach(function(hotkey) {
